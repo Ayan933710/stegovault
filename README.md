@@ -6,6 +6,10 @@
 
 ---
 
+## 🌐 Live Demo
+
+🔗 https://stegovault-production.up.railway.app
+
 ## 💡 What is StegoVault?
 
 We built StegoVault for the Double-Slash Hackathon at Jadavpur University. The idea was simple — what if you could hide a secret message inside a completely normal image, and nobody could even tell it was there?
