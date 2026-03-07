@@ -100,6 +100,26 @@
         <button class="btn btn-cyan" id="decBtn" onclick="doDecode()">
             <span>◈ Decrypt Message</span>
         </button>
+        <!-- Success -->
+        <div class="result success" id="decSuccess">
+            <div class="result-title green">✓ Message Decrypted</div>
+            <div class="output" id="decOutput"></div>
+        </div>
+
+        <!-- Kill Switch -->
+        <div class="killswitch" id="killswitch">
+            <div class="ks-skull">💀</div>
+            <div class="ks-title">⚡ Kill Switch Triggered</div>
+            <div class="ks-body" id="ksMsg"></div>
+        </div>
+
+        <!-- Error -->
+        <div class="result error" id="decError">
+            <div class="result-title red">✗ Error</div>
+            <div class="result-body" id="decErrMsg"></div>
+        </div>
+    </div>
+</div>
 
 
     
