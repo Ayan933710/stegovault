@@ -121,6 +121,187 @@
     </div>
 </div>
 
+script>
+    // ─────────────────────────────────────────────────
+    // STATUS CHECK - pings the server every 10 seconds
+    // ─────────────────────────────────────────────────
+    async function checkStatus() {
+        try {
+            const res  = await fetch('/api/status');
+            const data = await res.json();
+            document.getElementById('dot').className = 'dot';
+            document.getElementById('statusText').textContent =
+                `ONLINE — ${data.activeKeys} KEY(S) IN VAULT`;
+        } catch {
+            document.getElementById('dot').className = 'dot offline';
+            document.getElementById('statusText').textContent = 'SERVER OFFLINE';
+        }
+    }
+    checkStatus();
+    setInterval(checkStatus, 10000);
+
+    // ─────────────────────────────────────────────────
+    // FILE DROP ZONE SETUP
+    // ─────────────────────────────────────────────────
+    function setupDrop(zoneId, inputId, nameId) {
+        const zone  = document.getElementById(zoneId);
+        const input = document.getElementById(inputId);
+
+        zone.addEventListener('dragover', e => {
+            e.preventDefault();
+            zone.classList.add('over');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+        zone.addEventListener('drop', e => {
+            e.preventDefault();
+            zone.classList.remove('over');
+            if (e.dataTransfer.files[0]) {
+                const dt = new DataTransfer();
+                dt.items.add(e.dataTransfer.files[0]);
+                input.files = dt.files;
+                input.dispatchEvent(new Event('change'));
+            }
+        });
+
+        input.addEventListener('change', () => {
+            const f = input.files[0];
+            if (!f) return;
+            const el = document.getElementById(nameId);
+            el.textContent = `✓ ${f.name} (${(f.size/1024).toFixed(1)} KB)`;
+            el.style.display = 'block';
+        });
+    }
+
+    setupDrop('encDrop', 'encFile', 'encName');
+    setupDrop('decDrop', 'decFile', 'decName');
+
+    // ─────────────────────────────────────────────────
+    // ENCODE
+    // ─────────────────────────────────────────────────
+    async function doEncode() {
+        const image    = document.getElementById('encFile').files[0];
+        const message  = document.getElementById('encMsg').value.trim();
+        const password = document.getElementById('encPw').value;
+        const btn      = document.getElementById('encBtn');
+
+        // Hide previous results
+        document.getElementById('encResult').style.display   = 'none';
+        document.getElementById('encDownload').style.display = 'none';
+
+        // Validate inputs
+        if (!image)            return alert('Please select a PNG image');
+        if (!message)          return alert('Please enter a message');
+        if (password.length < 4) return alert('Password must be 4+ characters');
+
+        // Show loading state
+        btn.disabled = true;
+        btn.classList.add('loading');
+
+        try {
+            // Build form data and send to backend
+            const form = new FormData();
+            form.append('image',    image);
+            form.append('message',  message);
+            form.append('password', password);
+
+            const res = await fetch('/api/encode', {
+                method: 'POST', body: form
+            });
+
+            if (res.ok) {
+                // Got back a PNG file - create download link
+                const blob = await res.blob();
+                const url  = URL.createObjectURL(blob);
+
+                const result = document.getElementById('encResult');
+                result.className = 'result success';
+                result.style.display = 'block';
+                document.getElementById('encResultMsg').textContent =
+                    'Image encoded successfully! Share the downloaded image ' +
+                    'with your recipient along with the password separately.';
+
+                const dl = document.getElementById('encDownload');
+                dl.href  = url;
+                dl.style.display = 'block';
+
+                checkStatus();
+            } else {
+                const err = await res.json();
+                alert('Error: ' + err.error);
+            }
+        } catch (e) {
+            alert('Cannot reach server. Make sure Spring Boot is running.');
+        } finally {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+        }
+    }
+
+    // ─────────────────────────────────────────────────
+    // DECODE
+    // ─────────────────────────────────────────────────
+    async function doDecode() {
+        const image    =5 document.getElementById('decFile').files[0];
+        const password = document.getElementById('decPw').value;
+        const btn      = document.getElementById('decBtn');
+
+        // Hide previous results
+        document.getElementById('decSuccess').style.display   = 'none';
+        document.getElementById('killswitch').style.display   = 'none';
+        document.getElementById('decError').style.display     = 'none';
+
+        if (!image)    return alert('Please select the stego image');
+        if (!password) return alert('Please enter a password');
+
+        btn.disabled = true;
+        btn.classList.add('loading');
+
+        try {
+            const form = new FormData();
+            form.append('image',    image);
+            form.append('password', password);
+
+            const res  = await fetch('/api/decode', {
+                method: 'POST', body: form
+            });
+            const data = await res.json();
+
+            if (res.ok && data.status === 'SUCCESS') {
+                // Correct password - show the message
+                document.getElementById('decSuccess').style.display = 'block';
+                document.getElementById('decOutput').textContent = data.message;
+
+            } else if (data.error === 'KILL_SWITCH_TRIGGERED'
+                    || data.error === 'KEY_DESTROYED') {
+                // Kill switch! Flash the screen red briefly
+                document.body.style.background = 'rgba(255,0,0,0.06)';
+                setTimeout(() => document.body.style.background = '', 600);
+
+                document.getElementById('killswitch').style.display = 'block';
+                document.getElementById('ksMsg').textContent = data.message;
+
+            } else {
+                // Other error (no hidden data, corrupted image, etc.)
+                document.getElementById('decError').style.display = 'block';
+                document.getElementById('decErrMsg').textContent =
+                    data.error || 'Decoding failed';
+            }
+
+            checkStatus();
+        } catch (e) {
+            document.getElementById('decError').style.display = 'block';
+            document.getElementById('decErrMsg').textContent =
+                'Cannot reach server. Make sure Spring Boot is running.';
+        } finally {
+            btn.disabled = false;
+            btn.classList.remove('loading');
+        }
+    }
+</script>
+</body>
+</html>
+
+
 
     
     
