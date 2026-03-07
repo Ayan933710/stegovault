@@ -23,8 +23,7 @@
 - ✅ Decrypting the message on another device
 - 💀 Kill Switch getting triggered on wrong password
 
-````
-
+---
 ## 💡 What is StegoVault?
 
 We built StegoVault for the Double-Slash Hackathon at Jadavpur University. The idea was simple — what if you could hide a secret message inside a completely normal image, and nobody could even tell it was there?
@@ -55,6 +54,7 @@ No brute forcing. No retries. No mercy.
 ---
 
 ## 🚀 How It Works
+
 
 ### Sender Flow
 
@@ -247,4 +247,4 @@ stegovault/
 
 ---
 
-_Built with 🔥 by 1st Year B.Tech CSE — Double-Slash Hackathon 2026_
+_Built with 🔥 by 1st Year B.Tech CSE Team HackCypher — Double-Slash Hackathon 2026_
