@@ -17,6 +17,91 @@
         <a href="landing.html" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--dim);text-decoration:none;">back</a>
      </div>
 
+
+     <!-- MAIN APP - TWO PANELS 
+         creating the two panels of the main app-->
+<div class="app">
+    <!-- LEFT PANEL: SENDER / ENCODE -->
+     <div class="panel>"
+        <div class="panel-header">
+            <div class="panel-mode encode-color">//SENDER_MODE</div>
+            <div class="panel-title">Encode Message</div>
+            <p class="panel-sub">Hide an encrypted secret inside a PNG image.</p>
+        </div>
+
+        <div class="field">
+            <label class="label">01. Upload PNG image*</label>
+            <div class="dropzone" id="encDrop">
+                <input type="file" id="encFile" accept="image/png"/>
+                <span class="drop-icon">🖼</span>
+                <div class="drop-text">Drop PNG here or <span>click to browse</span></div>
+                <div class="drop-hint">PNG format only | Max 10MB</div>
+                </div>
+                <div class="file-name" id="encName"></div>
+        </div>
+    
+
+        <div class="field">
+            <label class="label">02. Secret Message *</label>
+            <textarea id="encMsg" rows="4" placeholder="Type your secret message..."></textarea>
+        </div>
+
+        <div class="field">
+            <label class="label">03. Password *</label>
+            <input type="password" id="encPw" placeholder="Minimum 4 characters"/>
+        </div>
+
+        <button class="btn btn-green" id="encBtn" onclick="doEncode()">
+            <span>⬡ Encode & Download</span>
+        </button>
+
+        <div class="result" id="encResult">
+            <div class="result-title green">✓ Encoding Complete</div>
+            <div class="result-body" id="encResultMsg"></div>
+        </div>
+
+        <a class="download" id="encDownload" download="stegovault_secret.png">
+            ⬇ Download Secure Image
+        </a>
+    </div>
+
+    <!-- RIGHT PANEL: RECEIVER / DECODE -->
+    <div class="panel">
+        <div class="panel-header">
+            <div class="panel-mode decode-color">// RECEIVER_MODE</div>
+            <div class="panel-title">Decode Message</div>
+            <p class="panel-sub">Extract the hidden secret — one attempt only.</p>
+        </div>
+
+        <div class="field">
+            <label class="label">01. Upload Secure Image *</label>
+            <div class="dropzone" id="decDrop">
+                <input type="file" id="decFile" accept="image/png"/>
+                <span class="drop-icon">🔍</span>
+                <div class="drop-text">Drop the <span>StegoVault image</span> here</div>
+                <div class="drop-hint">Must be unmodified — do not screenshot or resize</div>
+            </div>
+            <div class="file-name" id="decName"></div>
+        </div>
+
+        <div class="field">
+            <label class="label">02. Password *</label>
+            <input type="password" id="decPw" placeholder="Enter the password from sender"/>
+        </div>
+
+        <div class="warn-box">
+            <span class="warn-icon">⚠</span>
+            <span class="warn-text">
+                KILL SWITCH ACTIVE — ONE WRONG PASSWORD PERMANENTLY 
+                DESTROYS THE ENCRYPTION KEY. THIS CANNOT BE UNDONE.
+            </span>
+        </div>
+
+        <button class="btn btn-cyan" id="decBtn" onclick="doDecode()">
+            <span>◈ Decrypt Message</span>
+        </button>
+
+
     
     
 </body>
