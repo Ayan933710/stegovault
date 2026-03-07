@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Creating Top Bar -->
+    <!-- Top Bar -->
      <div class="topbar">
         <a href="landing.html" class="topbar-logo">Stego<span>Vault</span></a>
         <div class="status">
             <div class="dot" id="dot"></div>
             <span id="statusText">Connecting...</span>
         </div>
-        <a href="landing.html" style="font-family:var(--font-mono);font-size:0.7rem;color:var(--dim);text-decoration:none;">back</a>
+        <a href="landing.html" style="font-family:var(--font-mono);font-size:0.9rem;color: white;text-decoration:none;">&larr;&ensp;Back</a>
      </div>
 
 
@@ -123,9 +123,9 @@
 </div>
 
 <script>
-    // ─────────────────────────────────────────────────
+    
     // STATUS CHECK - pings the server every 10 seconds
-    // ─────────────────────────────────────────────────
+   
     async function checkStatus() {
         try {
             const res  = await fetch('/api/status');
@@ -141,9 +141,9 @@
     checkStatus();
     setInterval(checkStatus, 10000);
 
-    // ─────────────────────────────────────────────────
+    
     // FILE DROP ZONE SETUP
-    // ─────────────────────────────────────────────────
+   
     function setupDrop(zoneId, inputId, nameId) {
         const zone  = document.getElementById(zoneId);
         const input = document.getElementById(inputId);
@@ -176,9 +176,9 @@
     setupDrop('encDrop', 'encFile', 'encName');
     setupDrop('decDrop', 'decFile', 'decName');
 
-    // ─────────────────────────────────────────────────
+    
     // ENCODE
-    // ─────────────────────────────────────────────────
+    
     async function doEncode() {
         const image    = document.getElementById('encFile').files[0];
         const message  = document.getElementById('encMsg').value.trim();
@@ -238,9 +238,9 @@
         }
     }
 
-    // ─────────────────────────────────────────────────
+    
     // DECODE
-    // ─────────────────────────────────────────────────
+   
     async function doDecode() {
         const image    = document.getElementById('decFile').files[0];
         const password = document.getElementById('decPw').value;
@@ -299,12 +299,5 @@
         }
     }
 </script>
-</body>
-</html>
-
-
-
-    
-    
 </body>
 </html>
