@@ -7,37 +7,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
-// This class represents a row in the "secret_keys" database table
-// Each time someone hides a message in an image, one row is created here
+// This class is like a table in the database
+// Every time someone hides a message in an image, one row is added here
 @Entity
-@Table(name = "secret_keys") // the actual table name in the database
-@Data                        // Lombok: auto-generates getters and setters
-@Builder                     // Lombok: lets us build objects like SecretKey.builder().uuid("...").build()
-@NoArgsConstructor           // Lombok: creates an empty constructor
-@AllArgsConstructor          // Lombok: creates a constructor with all fields
+@Table(name = "secret_keys") // table ka naam database mein
+@Data           // automatically getters and setters banata hai
+@Builder        // object banane mein help karta hai
+@NoArgsConstructor  // empty constructor banata hai
+@AllArgsConstructor // sab fields wala constructor banata hai
 public class SecretKey {
 
-    // This is the primary key (unique ID) for each record
-    // The same UUID is also hidden inside the image using steganography
-    // When decoding, we extract this UUID to find the correct key
+    // Unique ID for each message - like a roll number
+    // This same ID is hidden inside the image
     @Id
     @Column(name = "uuid", nullable = false, length = 36)
     private String uuid;
 
-    // The AES encryption key saved as a Base64 string
-    // This key is used to encrypt and decrypt the hidden message
+    // The secret key used to lock and unlock the message
+    // Stored as a text string in the database
     @Column(name = "aes_key", nullable = false, length = 512)
     private String aesKey;
 
-    // Counts how many times a wrong password was entered
-    // If this goes up even once, the Kill Switch fires and deletes the key
+    // Counts wrong password attempts
+    // Even 1 wrong attempt = key deleted forever (Kill Switch!)
     @Column(name = "failed_attempts")
     @Builder.Default
-    private Integer failedAttempts = 0; // starts at 0 by default
+    private Integer failedAttempts = 0; // starts from zero
 
-    // Stores the date and time when this key was created
-    // Useful for tracking when a message was hidden
+    // Records the time when this key was created
     @Column(name = "created_at")
     @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now(); // set to current time automatically
+    private LocalDateTime createdAt = LocalDateTime.now(); // current time
 }
