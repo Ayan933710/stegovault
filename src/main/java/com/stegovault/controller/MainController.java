@@ -25,4 +25,70 @@ public class MainController {
     private final EncryptionService encryptionService;
     private final SteganographyService steganographyService;
 
+    // ── ENCODE ENDPOINT ──
+    // POST /api/encode
+    // Receives: image + message + password
+    // Returns: steganographic PNG image with hidden encrypted payload
+    @PostMapping("/encode")
+    public ResponseEntity<?> encode(
+            @RequestParam("image") MultipartFile imageFile,
+            @RequestParam("message") String message,
+            @RequestParam("password") String password) {
+
+        log.info("Encode request: image={}, msgLength={}",
+                imageFile.getOriginalFilename(), message.length());
+
+        try {
+            // Basic validation
+            if (imageFile.isEmpty())
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "No image provided"));
+            if (message.isBlank())
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Message cannot be empty"));
+            if (password.length() < 4)
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Password too short (min 4 chars)"));
+            if (!imageFile.getContentType().equals("image/png"))
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Only PNG images supported"));
+
+            // Step 1: Generate unique ID and AES key for this message
+            String uuid = UUID.randomUUID().toString();
+            String aesKey = encryptionService.generateAesKey();
+
+            // Step 2: Save key to database (THE KEY VAULT)
+            secretKeyRepository.save(
+                    SecretKey.builder()
+                            .uuid(uuid)
+                            .aesKey(aesKey)
+                            .build());
+            log.info("Key saved to vault for UUID: {}", uuid);
+
+            // Step 3: Encrypt the message
+            String encrypted = encryptionService.encrypt(
+                    message, aesKey, password);
+
+            // Step 4: Hide UUID + encrypted message in image LSBs
+            byte[] stegoImage = steganographyService.encode(
+                    imageFile.getBytes(), uuid, encrypted);
+
+            log.info("Encoding complete. Image size: {} bytes",
+                    stegoImage.length);
+
+            // Step 5: Return the stego image as a downloadable file
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_PNG);
+            headers.setContentDispositionFormData(
+                    "attachment", "stegovault_secret.png");
+
+            return new ResponseEntity<>(stegoImage, headers, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.error("Encode failed: {}", e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
 }
