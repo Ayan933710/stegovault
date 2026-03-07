@@ -164,4 +164,14 @@ public class MainController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
+
+    // ── STATUS ENDPOINT ──
+    // GET /api/status - health check
+    @GetMapping("/status")
+    public ResponseEntity<Map<String, Object>> status() {
+        return ResponseEntity.ok(Map.of(
+                "status", "ONLINE",
+                "activeKeys", secretKeyRepository.count(),
+                "message", "StegoVault is operational"));
+    }
 }
