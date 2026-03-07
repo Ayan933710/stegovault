@@ -10,6 +10,21 @@
 
 🔗 https://stegovault-production.up.railway.app
 
+## 🎥 Demo Video
+
+[![StegoVault Demo](https://img.shields.io/badge/▶%20Watch%20Demo-Google%20Drive-blue?style=for-the-badge&logo=googledrive)](https://drive.google.com/file/d/1M-xIbXZE8M2_PxDFO641RNPDIGs9taoT/view?usp=sharing)
+
+> Click the button above to watch the full demo video of StegoVault in action.
+
+### What the demo shows:
+
+- ✅ Encoding a secret message into a PNG image
+- ✅ Downloading the steganographic image
+- ✅ Decrypting the message on another device
+- 💀 Kill Switch getting triggered on wrong password
+
+````
+
 ## 💡 What is StegoVault?
 
 We built StegoVault for the Double-Slash Hackathon at Jadavpur University. The idea was simple — what if you could hide a secret message inside a completely normal image, and nobody could even tell it was there?
@@ -56,7 +71,7 @@ flowchart TD
     B7 --> B8[Download Stego Image]
     B8 --> B9[Share with Receiver]
     B9 --> E([End])
-```
+````
 
 ### Receiver Flow
 
