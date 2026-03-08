@@ -12,9 +12,9 @@
 
 ## 🎥 Demo Video
 
-[![StegoVault Demo](https://img.shields.io/badge/▶%20Watch%20Demo-Google%20Drive-blue?style=for-the-badge&logo=googledrive)](https://drive.google.com/file/d/1-ZW_VvQMXIIMKRh2gMi3_jzg7I3pCv5H/view?usp=sharing)
+[![StegoVault Demo](https://img.shields.io/badge/▶%20Watch%20on%20YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/eE-a5iUkEnc?si=5Ero1MQAXiIbwTcH)
 
-> Click the button above to watch the full demo video of StegoVault in action.
+[![StegoVault Demo](https://img.shields.io/badge/▶%20Watch%20on%20Google%20Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1-ZW_VvQMXIIMKRh2gMi3_jzg7I3pCv5H/view?usp=sharing)
 
 ### What the demo shows:
 
