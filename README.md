@@ -12,7 +12,7 @@
 
 ## 🎥 Demo Video
 
-[![StegoVault Demo](https://img.shields.io/badge/▶%20Watch%20Demo-Google%20Drive-blue?style=for-the-badge&logo=googledrive)](https://drive.google.com/file/d/1M-xIbXZE8M2_PxDFO641RNPDIGs9taoT/view?usp=sharing)
+[![StegoVault Demo](https://img.shields.io/badge/▶%20Watch%20Demo-Google%20Drive-blue?style=for-the-badge&logo=googledrive)](https://drive.google.com/file/d/1-ZW_VvQMXIIMKRh2gMi3_jzg7I3pCv5H/view?usp=sharing)
 
 > Click the button above to watch the full demo video of StegoVault in action.
 
@@ -23,7 +23,7 @@
 - ✅ Decrypting the message on another device
 - 💀 Kill Switch getting triggered on wrong password
 
-````
+---
 
 ## 💡 What is StegoVault?
 
@@ -71,7 +71,7 @@ flowchart TD
     B7 --> B8[Download Stego Image]
     B8 --> B9[Share with Receiver]
     B9 --> E([End])
-````
+```
 
 ### Receiver Flow
 
