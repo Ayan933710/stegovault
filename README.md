@@ -247,4 +247,8 @@ stegovault/
 
 ---
 
-_Built with 🔥 by 1st Year B.Tech CSE — Double-Slash Hackathon 2026_
+_Built with 🔥 by 1st Year B.Tech CSE Team HackCypher — Double-Slash Hackathon 2026_
+
+```
+
+```
